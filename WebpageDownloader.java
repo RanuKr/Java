@@ -1,0 +1,44 @@
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class WebpageDownloader {
+    public static void main(String[] args)
+     {
+        String url = "https://google.com";  
+
+        try {
+            URL webpageUrl = new URL(url);
+            URLConnection connection = webpageUrl.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            int cnt=0;
+            // Save the webpage content to a file
+            try (OutputStream outputStream = new FileOutputStream("webpage.html")) 
+            {
+                
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) 
+                {
+                    outputStream.write(buffer, 0, bytesRead);
+                    cnt++;
+                }
+            }
+
+            System.out.println("Webpage downloaded successfully.");
+            System.out.println(cnt);
+            File f=new File("webpage.html");
+            System.out.println("Size "+f.length());
+            
+
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
+}
